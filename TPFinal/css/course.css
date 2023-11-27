@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+}
+
+canvas {
+    display: block;
+}
+
+#canevas-atelier {
+    display: block;
+    margin: auto;
+}
+
+#chargeur-luckiest-guy {
+    display: none; 
+}
+
+#kid {
+    width: 100px;
+    height: 100px;
+    background-image: url(kid);
+    position: absolute;
+}
+
+#kidLeft {
+    left: 0;
+}
+
+#kidRight {
+    right: 0;
+}
+
+
+#pizza {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+}
+
+#purpleGuy {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+}
