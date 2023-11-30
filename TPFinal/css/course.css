@@ -5,15 +5,6 @@ body {
     background-color: #5f5f5f;
 }
 
-canvas {
-    display: block;
-}
-
-#canevas-atelier {
-    display: block;
-    margin: auto;
-}
-
 #chargeur-luckiest-guy {
     display: none; 
 }

@@ -2,14 +2,8 @@ let canevas;
 let contexte;
 let posX;
 let posY;
+let y;
 
-let pizza = [];
-const LARGEUR_PIZZA = 50;
-const HAUTEUR_PIZZA = 50;
-
-let kid = {};
-const LARGEUR_KID = 50;
-const HAUTEUR_KID = 50;
 
 let touchesClavier = {
     "ArrowUp": false,
@@ -29,7 +23,7 @@ window.onload = function () {
     canevas = document.getElementById('canevas-atelier');
     contexte = canevas.getContext('2d');
     const kidgauche = document.getElementById("kidgauche");
-    contexte.drawImage(kidgauche, 100, 50);
+
 
     posX = (canevas.width - DIMENSION_CARRE) / 2;
     posY = (canevas.height - DIMENSION_CARRE) / 2;
@@ -38,16 +32,6 @@ window.onload = function () {
 
     window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
 
-    // Set canvas styles
-    canevas.style.backgroundColor = '#f0f0f0';
-    canevas.style.border = '2px solid #333';
-
-    // Set playerLeftElement and playerRightElement styles
-    playerLeftElement.style.width = '100px';
-    playerLeftElement.style.height = '100px';
-
-    playerRightElement.style.width = '100px';
-    playerRightElement.style.height = '100px';
 }
 
 function boucleJeu(timeStamp){
@@ -130,35 +114,16 @@ function toucheRelachee(evenement) {
 function dessiner() {
     // effacer le canevas
     contexte.clearRect(0, 0, canevas.width, canevas.height);
+    dessinergrille();
 
     // affiche le carré
     contexte.fillRect(posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
 }
 
-
-const canvas = document.getElementById('canevas-atelier');
-canvas.style.backgroundColor = '#f0f0f0'; // Set background color
-canvas.style.border = '2px solid #333'; // Add a border
-
-
 const playerLeftElement = document.getElementById('kidLeft');
 const playerRightElement = document.getElementById('kidrRight');
 const playerForwardElement = document.getElementById('kidForward');
 const playerBackElement = document.getElementById('kidBack');
-
-
-playerLeftElement.style.width = '100px';
-playerLeftElement.style.height = '100px';
-
-
-playerRightElement.style.width = '100px';
-playerRightElement.style.height = '100px';
-
-A = pizza[i].x, pizza[i].y
-B = pizza[i].x + LARGEUR_PIZZA, pizza[i].y + HAUTEUR_PIZZA
-
-C = kid.x, kid.y
-D = kid.x + LARGEUR_KID, kid.y + HAUTEUR_KID
 
 function rectanglesCollision(A, B, C, D) {
     if (A.x >= D.x || C.x >= B.x){
@@ -171,23 +136,26 @@ function rectanglesCollision(A, B, C, D) {
 
 }
 
-tableau.push(unObjet);
+function dessinergrille(){
+    console.log("Run")
+    couleurs="Black";
+    for(let y=0;y<10;y++){
+        if(couleurs=="Black"){
+            couleurs="White";
+        }else{
 
-posX = ...;
-posY = ...;
-pizza.push({x: posX, y: posY});
+        couleurs="Black";
+    }
+    }
+    for(let x=0;x<10;x++){
+        contexte.fillStyle = couleurs;      
+        contexte.fillRect(x*50,y*50, 50, 50);
+        if(couleurs=="Black"){
+            couleurs="White";
+        }else{
 
-tableau.splice(indice, 1);
-
-pizza.splice(indiceCadeau, 1);
-
-let collisionDetected = rectanglesCollision(A, B, C, D);
-if (collisionDetected) {
+        couleurs="Black";
+    }
+    }
+    
 }
-
-let posX = ...;
-let posY = ...;
-pizza.push({ x: posX, y: posY });
-
-let indiceCadeau = 0;
-pizza.splice(indiceCadeau, 1);
