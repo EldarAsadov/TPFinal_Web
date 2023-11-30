@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden; 
+    background-color: #5f5f5f;
 }
 
 canvas {
@@ -20,7 +21,7 @@ canvas {
 #kid {
     width: 100px;
     height: 100px;
-    background-image: url(kid);
+    background-image: url(../images/kid_devant.png);
     position: absolute;
 }
 
@@ -40,7 +41,13 @@ canvas {
 }
 
 #purpleGuy {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
+    background-image: url(../images/purpleguy_devant.png);
     position: absolute;
+}
+
+#Background{
+    background-size: 100% 100%;
+    align-items: center;
 }
