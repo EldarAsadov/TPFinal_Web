@@ -9,12 +9,6 @@ body {
     display: none; 
 }
 
-#kid {
-    width: 100px;
-    height: 100px;
-    background-image: url(../images/kid_devant.png);
-    position: absolute;
-}
 
 #kidLeft {
     left: 0;
@@ -31,12 +25,6 @@ body {
     position: absolute;
 }
 
-#purpleGuy {
-    width: 100px;
-    height: 100px;
-    background-image: url(../images/purpleguy_devant.png);
-    position: absolute;
-}
 
 #Background{
     background-size: 100% 100%;

@@ -5,6 +5,13 @@ let posY;
 let y;
 
 
+const playerImages = {
+    "ArrowUp": "kidBack",
+    "ArrowDown": "kidForward",
+    "ArrowLeft": "kidLeft",
+    "ArrowRight": "kidRight"
+};
+
 let touchesClavier = {
     "ArrowUp": false,
     "ArrowDown": false,
@@ -12,8 +19,8 @@ let touchesClavier = {
     "ArrowRight": false
 };
 
-const VITESSE_CARRE = 10;
-const DIMENSION_CARRE = 48;
+const VITESSE_CARRE = 5;
+const DIMENSION_CARRE = 50;
 
 window.onload = function () {
 
@@ -27,8 +34,6 @@ window.onload = function () {
 
     posX = (canevas.width - DIMENSION_CARRE) / 2;
     posY = (canevas.height - DIMENSION_CARRE) / 2;
-
-    contexte.fillStyle = "CornflowerBlue";
 
     window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
 
@@ -117,7 +122,8 @@ function dessiner() {
     dessinergrille();
 
     // affiche le carré
-    contexte.fillRect(posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
+    const imageElement = document.getElementById("kidgauche");
+    contexte.drawImage(imageElement, posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
 }
 
 const playerLeftElement = document.getElementById('kidLeft');
@@ -136,26 +142,14 @@ function rectanglesCollision(A, B, C, D) {
 
 }
 
-function dessinergrille(){
-    console.log("Run")
-    couleurs="Black";
-    for(let y=0;y<10;y++){
-        if(couleurs=="Black"){
-            couleurs="White";
-        }else{
+const tileColors = ["#CCCCCC", "#000000"]; // Example colors, you can use your own
 
-        couleurs="Black";
+function dessinergrille() {
+    for (let y = 0; y < 25; y++) {
+        for (let x = 0; x < 40; x++) {
+            const colorIndex = (x + y) % tileColors.length; // Alternating between different tiles
+            contexte.fillStyle = tileColors[colorIndex];
+            contexte.fillRect(x * 50, y * 50, 50, 50);
+        }
     }
-    }
-    for(let x=0;x<10;x++){
-        contexte.fillStyle = couleurs;      
-        contexte.fillRect(x*50,y*50, 50, 50);
-        if(couleurs=="Black"){
-            couleurs="White";
-        }else{
-
-        couleurs="Black";
-    }
-    }
-    
 }
