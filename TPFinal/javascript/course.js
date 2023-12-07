@@ -2,7 +2,11 @@ let canevas;
 let contexte;
 let posX;
 let posY;
+let posX2;
+let posY2;
 let y;
+let kid;
+let purpleguy;
 
 
 const playerImages = {
@@ -16,8 +20,13 @@ let touchesClavier = {
     "ArrowUp": false,
     "ArrowDown": false,
     "ArrowLeft": false,
-    "ArrowRight": false
+    "ArrowRight": false,
+    "w": false,
+    "s": false,
+    "a": false,
+    "d": false,
 };
+
 
 const VITESSE_CARRE = 5;
 const DIMENSION_CARRE = 50;
@@ -30,10 +39,13 @@ window.onload = function () {
     canevas = document.getElementById('canevas-atelier');
     contexte = canevas.getContext('2d');
     const kidgauche = document.getElementById("kidgauche");
+    const purpleguygauche = document.getElementById("purpleguygauche");
 
 
     posX = (canevas.width - DIMENSION_CARRE) / 2;
     posY = (canevas.height - DIMENSION_CARRE) / 2;
+    posX2 = (canevas.width - DIMENSION_CARRE) / 2;
+    posY2 = (canevas.height - DIMENSION_CARRE) / 2;
 
     window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
 
@@ -79,6 +91,38 @@ function calculerPosition() {
         }
         posX = nouveauX;
     }
+
+    if (touchesClavier["w"]) {
+        let nouveauY = posY2 - VITESSE_CARRE;
+        if (nouveauY < 0) {
+            nouveauY = 0;
+        }
+        posY2 = nouveauY;
+    }
+
+    if (touchesClavier["s"]) {
+        let nouveauY = posY2 + VITESSE_CARRE;
+        if (nouveauY > canevas.height - DIMENSION_CARRE) {
+            nouveauY = canevas.height - DIMENSION_CARRE;
+        }
+        posY2 = nouveauY;
+    }
+
+    if (touchesClavier["a"]) {
+        let nouveauX = posX2 - VITESSE_CARRE;
+        if (nouveauX < 0) {
+            nouveauX = 0;
+        }
+        posX2 = nouveauX;
+    }
+
+    if (touchesClavier["d"]) {
+        let nouveauX = posX2 + VITESSE_CARRE;
+        if (nouveauX > canevas.width - DIMENSION_CARRE) {
+            nouveauX = canevas.width - DIMENSION_CARRE;
+        }
+        posX2 = nouveauX;
+    }
 }
 
 function toucheAppuyee(evenement) {
@@ -96,7 +140,19 @@ function toucheAppuyee(evenement) {
         case "ArrowRight": 
             touchesClavier["ArrowRight"] = true;
             break;
-    }
+        case "w":
+            touchesClavier["w"] = true;
+            break;
+        case "s": 
+            touchesClavier["s"] = true;
+            break;
+        case "a": 
+            touchesClavier["a"] = true;
+            break;
+        case "d": 
+            touchesClavier["d"] = true;
+            break;
+}
 }
 
 function toucheRelachee(evenement) {
@@ -113,6 +169,18 @@ function toucheRelachee(evenement) {
         case "ArrowRight": 
             touchesClavier["ArrowRight"] = false;
             break;
+        case "w":
+            touchesClavier["w"] = false;
+            break;
+        case "s": 
+            touchesClavier["s"] = false;
+            break;
+        case "a": 
+            touchesClavier["a"] = false;
+            break;
+        case "d": 
+            touchesClavier["d"] = false;
+            break;
     }
 }
 
@@ -124,6 +192,9 @@ function dessiner() {
     // affiche le carré
     const imageElement = document.getElementById("kidgauche");
     contexte.drawImage(imageElement, posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
+
+    const imageElement2 = document.getElementById("purpleguygauche");
+    contexte.drawImage(imageElement2, posX2, posY2, DIMENSION_CARRE, DIMENSION_CARRE);
 }
 
 const playerLeftElement = document.getElementById('kidLeft');
