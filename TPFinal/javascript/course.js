@@ -1,20 +1,27 @@
 let canevas;
 let contexte;
-let posX;
-let posY;
-let posX2;
-let posY2;
-let y;
-let kid;
-let purpleguy;
-
+let posX = 0;
+let posY = 0;
+let posX2 = 0;
+let posY2 = 0;
+let DIMENSION_CARRE = 50; // Ajoutez cette ligne
+let VITESSE_CARRE = 5; // Ajoutez cette ligne
+let kid = new Image();
+let purpleguy = new Image();
+let directionKid = "w";
+let directionPurpleguy = "ArrowUp";
 
 const playerImages = {
-    "ArrowUp": "kidBack",
-    "ArrowDown": "kidForward",
-    "ArrowLeft": "kidLeft",
-    "ArrowRight": "kidRight"
+    "ArrowUp": "purpleguydevant",
+    "ArrowDown": "purpleguyderriere",
+    "ArrowLeft": "purpleguygauche",
+    "ArrowRight": "purpleguydroite",
+    "w": "kiddevant",
+    "s": "kidderriere",
+    "a": "kidgauche",
+    "d": "kiddroite",
 };
+
 
 let touchesClavier = {
     "ArrowUp": false,
@@ -27,36 +34,46 @@ let touchesClavier = {
     "d": false,
 };
 
-
-const VITESSE_CARRE = 5;
-const DIMENSION_CARRE = 50;
-
 window.onload = function () {
-
-    window.addEventListener("keydown", toucheAppuyee);
-    window.addEventListener("keyup", toucheRelachee);
-
     canevas = document.getElementById('canevas-atelier');
     contexte = canevas.getContext('2d');
+
+    document.addEventListener('keydown', (evt) => {  
+        console.log("keypress");
+        changerValeurTouche(evt, true);
+    });
+    document.addEventListener('keyup', (evt) => { 
+        console.log("keyup")
+        changerValeurTouche(evt, false);
+    });
+
+    // Chargez les images correctement
     const kidgauche = document.getElementById("kidgauche");
     const purpleguygauche = document.getElementById("purpleguygauche");
 
+    // Utilisez une fonction de rappel pour démarrer la boucle de jeu après le chargement des images
+    kid.onload = function () {
+        purpleguy.onload = function () {
+            window.requestAnimationFrame(boucleJeu);
+        };
+    };
 
-    posX = (canevas.width - DIMENSION_CARRE) / 2;
-    posY = (canevas.height - DIMENSION_CARRE) / 2;
-    posX2 = (canevas.width - DIMENSION_CARRE) / 2;
-    posY2 = (canevas.height - DIMENSION_CARRE) / 2;
+    // Utilisez les images chargées, pas les éléments du DOM
+    kid.src = kidgauche.src;
+    purpleguy.src = purpleguygauche.src;
+};
 
-    window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
 
-}
 
 function boucleJeu(timeStamp){
     calculerPosition();
     dessiner();
 
-    window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
+    window.requestAnimationFrame(boucleJeu);  
 }
+
+
+console.log("Script chargé");
 
 function calculerPosition() {
     // le code de calcul de la position viendra ici
@@ -123,84 +140,51 @@ function calculerPosition() {
         }
         posX2 = nouveauX;
     }
+ 
 }
-
-function toucheAppuyee(evenement) {
-    console.log("touche appuyée: " + evenement.key);
-    switch (evenement.key) {
-        case "ArrowUp":
-            touchesClavier["ArrowUp"] = true;
-            break;
-        case "ArrowDown": 
-            touchesClavier["ArrowDown"] = true;
-            break;
-        case "ArrowLeft": 
-            touchesClavier["ArrowLeft"] = true;
-            break;
-        case "ArrowRight": 
-            touchesClavier["ArrowRight"] = true;
-            break;
-        case "w":
-            touchesClavier["w"] = true;
-            break;
-        case "s": 
-            touchesClavier["s"] = true;
-            break;
-        case "a": 
-            touchesClavier["a"] = true;
-            break;
-        case "d": 
-            touchesClavier["d"] = true;
-            break;
+const allowedTouches = { 
+    purpleGuyTouches : ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"],
+    kidTouches : ["w", "a", "s", "d"]
 }
-}
-
-function toucheRelachee(evenement) {
-    switch (evenement.key) {
-        case "ArrowUp":
-            touchesClavier["ArrowUp"] = false;
-            break;
-        case "ArrowDown": 
-            touchesClavier["ArrowDown"] = false;
-            break;
-        case "ArrowLeft": 
-            touchesClavier["ArrowLeft"] = false;
-            break;
-        case "ArrowRight": 
-            touchesClavier["ArrowRight"] = false;
-            break;
-        case "w":
-            touchesClavier["w"] = false;
-            break;
-        case "s": 
-            touchesClavier["s"] = false;
-            break;
-        case "a": 
-            touchesClavier["a"] = false;
-            break;
-        case "d": 
-            touchesClavier["d"] = false;
-            break;
+function changerValeurTouche(evenement, valeur) {
+    if(allowedTouches.purpleGuyTouches.includes(evenement.key)){
+        touchesClavier[evenement.key] = valeur;
+        if(valeur) { 
+            console.log("Changed value");
+            directionPurpleguy = evenement.key;
+        }
+        console.log(directionPurpleguy);
+    }
+    if(allowedTouches.kidTouches.includes(evenement.key)){
+        touchesClavier[evenement.key] = valeur;
+        if(valeur) directionKid = evenement.key;
+        directionKid = evenement.key;
     }
 }
 
+
 function dessiner() {
+    console.log("HEllo world dessiner");
     // effacer le canevas
     contexte.clearRect(0, 0, canevas.width, canevas.height);
     dessinergrille();
 
-    // affiche le carré
-    const imageElement = document.getElementById("kidgauche");
-    contexte.drawImage(imageElement, posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
-
-    const imageElement2 = document.getElementById("purpleguygauche");
-    contexte.drawImage(imageElement2, posX2, posY2, DIMENSION_CARRE, DIMENSION_CARRE);
+    console.log(playerImages[directionKid]);
+// Utilisez les directions pour obtenir les images appropriées
+let image=new Image()
+image.src = document.getElementById(playerImages[directionPurpleguy]).src
+console.log(posX + ", " + posY);
+contexte.drawImage(image, posX, posY, DIMENSION_CARRE, DIMENSION_CARRE);
+image.src = document.getElementById(playerImages[directionKid]).src
+contexte.drawImage(image, posX2, posY2, DIMENSION_CARRE, DIMENSION_CARRE);
 }
 
-const playerLeftElement = document.getElementById('kidLeft');
-const playerRightElement = document.getElementById('kidrRight');
-const playerForwardElement = document.getElementById('kidForward');
-const playerBackElement = document.getElementById('kidBack');
+
+
+const playerLeftElement = document.getElementById('kidgauche');
+const playerRightElement = document.getElementById('kiddroite');
+const playerForwardElement = document.getElementById('kiddevant');
+const playerBackElement = document.getElementById('kidderriere');
 
 function rectanglesCollision(A, B, C, D) {
     if (A.x >= D.x || C.x >= B.x){
@@ -224,3 +208,5 @@ function dessinergrille() {
         }
     }
 }
+
+
