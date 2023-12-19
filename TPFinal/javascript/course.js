@@ -209,4 +209,81 @@ function dessinergrille() {
     }
 }
 
+function getRandomPosition(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+function isOverlapping(rect1, rect2) {
+    return !(rect1.x + rect1.width < rect2.x ||
+             rect2.x + rect2.width < rect1.x ||
+             rect1.y + rect1.height < rect2.y ||
+             rect2.y + rect2.height < rect1.y);
+}
+
+const player = document.createElement('div');
+player.className = 'player';
+document.body.appendChild(player);
+
+const numberOfSquares = 10;
+const squares = [];
+
+for (let i = 0; i < numberOfSquares; i++) {
+    const square = document.createElement('div');
+    square.className = 'square';
+
+    let newX, newY;
+    let isOverlap;
+
+    do {
+        newX = getRandomPosition(50, window.innerWidth - 70);
+        newY = getRandomPosition(50, window.innerHeight - 70);
+
+        // Check if the new square will overlap with existing squares
+        isOverlap = squares.some(existingSquare => isOverlapping({ x: newX, y: newY, width: 20, height: 20 }, existingSquare));
+    } while (isOverlap);
+
+    square.style.left = `${newX}px`;
+    square.style.top = `${newY}px`;
+
+    squares.push({ x: newX, y: newY, width: 20, height: 20 });
+    document.body.appendChild(square);
+}
+
+// Add event listener for player movement
+document.addEventListener('keydown', (event) => {
+    const speed = 10;
+    switch (event.key) {
+        case 'ArrowUp':
+            player.style.top = `${Math.max(0, parseInt(player.style.top) - speed)}px`;
+            break;
+        case 'ArrowDown':
+            player.style.top = `${Math.min(window.innerHeight - 30, parseInt(player.style.top) + speed)}px`;
+            break;
+        case 'ArrowLeft':
+            player.style.left = `${Math.max(0, parseInt(player.style.left) - speed)}px`;
+            break;
+        case 'ArrowRight':
+            player.style.left = `${Math.min(window.innerWidth - 30, parseInt(player.style.left) + speed)}px`;
+            break;
+    }
+
+    // Check for collision with squares
+    const playerRect = { x: parseInt(player.style.left), y: parseInt(player.style.top), width: 30, height: 30 };
+    squares.forEach((square, index) => {
+        if (isOverlapping(playerRect, square)) {
+            // Collision detected, remove the square
+            document.body.removeChild(document.getElementsByClassName('square')[index]);
+            squares.splice(index, 1);
+        }
+    });
+});
+
+// Check for collision with squares
+const playerRect = { x: parseInt(player.style.left), y: parseInt(player.style.top), width: 30, height: 30 };
+squares.forEach((square, index) => {
+    if (isOverlapping(playerRect, square)) {
+        // Collision detected, remove the square
+        document.body.removeChild(document.getElementsByClassName('square')[index]);
+        squares.splice(index, 1);
+    }
+});
