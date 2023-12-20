@@ -1,9 +1,9 @@
 let canevas;
 let contexte;
-let posX = 0;
-let posY = 0;
-let posX2 = 0;
-let posY2 = 0;
+let posX = 500; // La position initiale X pour le joueur kid
+let posY = 500; // La position initiale Y pour le joueur kid
+let posX2 = 1500; // La position initiale X pour le joueur purpleguy
+let posY2 = 500; // La position initiale Y pour le joueur purpleguy
 let DIMENSION_CARRE = 50; // Ajoutez cette ligne
 let VITESSE_CARRE = 5; // Ajoutez cette ligne
 let kid = new Image();
@@ -12,8 +12,8 @@ let directionKid = "w";
 let directionPurpleguy = "ArrowUp";
 
 const playerImages = {
-    "ArrowUp": "purpleguydevant",
-    "ArrowDown": "purpleguyderriere",
+    "ArrowUp": "purpleguyderriere",
+    "ArrowDown": "purpleguydevant",
     "ArrowLeft": "purpleguygauche",
     "ArrowRight": "purpleguydroite",
     "w": "kiddevant",
@@ -147,20 +147,19 @@ const allowedTouches = {
     kidTouches : ["w", "a", "s", "d"]
 }
 function changerValeurTouche(evenement, valeur) {
-    if(allowedTouches.purpleGuyTouches.includes(evenement.key)){
+    if (allowedTouches.purpleGuyTouches.includes(evenement.key)) {
         touchesClavier[evenement.key] = valeur;
-        if(valeur) { 
-            console.log("Changed value");
+        if (valeur) {
             directionPurpleguy = evenement.key;
         }
-        console.log(directionPurpleguy);
-    }
-    if(allowedTouches.kidTouches.includes(evenement.key)){
+    } else if (allowedTouches.kidTouches.includes(evenement.key)) {
         touchesClavier[evenement.key] = valeur;
-        if(valeur) directionKid = evenement.key;
-        directionKid = evenement.key;
+        if (valeur) {
+            directionKid = evenement.key;
+        }
     }
 }
+
 
 
 function dessiner() {
@@ -208,6 +207,7 @@ function dessinergrille() {
         }
     }
 }
+<<<<<<< Updated upstream
 
 function getRandomPosition(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -297,3 +297,5 @@ document.addEventListener('keydown', (event) => {
         }
     });
 });
+=======
+>>>>>>> Stashed changes
